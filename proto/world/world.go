@@ -7,26 +7,22 @@ import (
 
 type World struct {
 	Size     int
-	Entities [1000]entity.Entity
+	Entities []entity.Entity
 }
 
-func Create() *World {
-	var entities [1000]entity.Entity
+func Create(size int, heroCount int) *World {
+	var entities = make([]entity.Entity, heroCount)
 	for i := 0; i < len(entities); i++ {
 		entities[i] = entity.Create()
 	}
-	var world = World{10, entities}
+	var world = World{size, entities}
 	println("worldSize: " + fmt.Sprint(world.Size))
 	return &world
 }
 
 func Update(w *World) {
-	// var wo = *w
-	// for _, e := range wo.Entities {
-	// 	println(e.Pos.String())
-	// }
-
-	for _, e := range w.Entities {
+	for i := 0; i < len(w.Entities); i++ {
+		e := w.Entities[i]
 		println(e.Pos.String())
 	}
 }

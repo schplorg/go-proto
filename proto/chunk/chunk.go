@@ -5,7 +5,7 @@ import (
 )
 
 type Chunk struct {
-	Entities [1000]int
+	Entities []int
 }
 
 func Create() *Chunk {
