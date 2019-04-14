@@ -1,11 +1,11 @@
-package server
+package proto
 
 import (
 	"fmt"
 	"net/http"
 )
 
-func Start() {
+func StartServer(wor *World) {
 	go func() {
 		defer func() {
 			if r := recover(); r != nil {
@@ -15,7 +15,10 @@ func Start() {
 		fmt.Println("Serving at 58000")
 
 		var handler = func(w http.ResponseWriter, r *http.Request) {
-			fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			outp := wor.GetJSON()
+			fmt.Fprintf(w, outp)
+			//fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 		}
 
 		http.HandleFunc("/", handler)
