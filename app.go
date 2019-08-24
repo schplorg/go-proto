@@ -1,8 +1,9 @@
 package main
 
 import (
-	"./proto"
 	"fmt"
+
+	"./proto"
 )
 
 func main() {

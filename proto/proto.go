@@ -9,18 +9,7 @@ func Start() {
 	fmt.Println("creating world")
 	w := CreateWorld(10, 100)
 	StartServer(w)
-
-	// var waitgroup sync.WaitGroup
-	// waitgroup.Add(1)
-	// waitgroup.Wait()
-
-	// for i := 0; i < 3; i++ {
-	// 	println("proto.update")
-	// 	world.Update(w)
-	// 	fmt.Scanln()
-	// }
-
-	ticker := time.NewTicker(500 * time.Millisecond)
+	ticker := time.NewTicker(2500 * time.Millisecond)
 	go UpdateProto(ticker, w)
 	time.Sleep(60000 * time.Millisecond)
 	ticker.Stop()
