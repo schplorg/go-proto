@@ -9,11 +9,10 @@ func Start() {
 	fmt.Println("creating world")
 	w := CreateWorld(10, 100)
 	StartServer(w)
-	ticker := time.NewTicker(2500 * time.Millisecond)
+	ticker := time.NewTicker(50 * time.Millisecond)
 	go UpdateProto(ticker, w)
-	time.Sleep(60000 * time.Millisecond)
+	time.Sleep(600000 * time.Millisecond)
 	ticker.Stop()
-	fmt.Scanln()
 }
 
 func UpdateProto(ticker *time.Ticker, world *World) {

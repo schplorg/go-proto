@@ -39,7 +39,7 @@ func Norm(a Vec3) Vec3 {
 func (b Vec3) String() string {
 	return fmt.Sprintf("%f %f %f", b.X, b.Y, b.Z)
 }
-func GetRandomPosition(scale float64) Vec3 {
+func GetRandomVector(scale float64) Vec3 {
 	pos := Vec3{X: rand.Float64() * scale, Y: rand.Float64() * scale, Z: rand.Float64() * scale}
 	return pos
 }

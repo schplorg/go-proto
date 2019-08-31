@@ -6,20 +6,26 @@ import (
 )
 
 type World struct {
-	Time     float64
-	Size     int
-	Entities []Entity
-	Chunks   [][]*Chunk
+	Time        float64
+	Size        int
+	EntityCount int
+	Entities    []Entity
+	Chunks      [][]*Chunk
 }
 
 func CreateWorld(size int, heroCount int) *World {
 	entities := make([]Entity, heroCount)
 	for i := 0; i < len(entities); i++ {
 		f := float64(size)
-		entities[i] = CreateEntity(0, GetRandomPosition(f))
+		pos := GetRandomVector(f)
+		rot := GetRandomVector(3.141)
+		pos.Z = 0.0
+		rot.X = 0.0
+		rot.Y = 0.0
+		entities[i] = CreateEntity(i, 0, pos, rot)
 	}
 	chunks := CreateChunks(size)
-	var world = World{GetTime(), size, entities, chunks}
+	var world = World{GetTime(), size, len(entities), entities, chunks}
 	println("worldSize: " + fmt.Sprint(world.Size))
 	return &world
 }
@@ -37,24 +43,13 @@ func CreateChunks(size int) [][]*Chunk {
 
 func (w *World) Update() {
 	w.ClearChunks()
-	w.UpdateChunks()
 	w.Time = GetTime()
-	println("Update w.Entities")
 	for i := 0; i < len(w.Entities); i++ {
 		e := &w.Entities[i]
 		e.Update(w)
 	}
-	println("Update w.Entities done")
-}
-func (w *World) UpdateChunks() {
-	println("UpdateChunks")
-	for i := 0; i < len(w.Entities); i++ {
-		e := &w.Entities[i]
-		w.Chunks[e.ChunkX][e.ChunkY].Append(i)
-	}
 }
 func (w *World) ClearChunks() {
-	println("ClearChunks")
 	chunks := w.Chunks
 	chunkLength := len(chunks)
 	for x := 0; x < chunkLength; x++ {
@@ -64,6 +59,7 @@ func (w *World) ClearChunks() {
 	}
 }
 func (w *World) GetJSON() string {
+	w.EntityCount = len(w.Entities)
 	b, e := json.Marshal(w)
 	if e == nil {
 		return string(b)

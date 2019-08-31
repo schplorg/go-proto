@@ -19,7 +19,6 @@ func (c *Chunk) Clear() {
 	c.Entities = c.Entities[:0]
 }
 func (c *Chunk) Append(entity int) {
-	println("Append " + strconv.Itoa(entity))
 	c.Last++
 	c.Entities = append(c.Entities, entity)
 }
