@@ -58,6 +58,28 @@ func (w *World) ClearChunks() {
 		}
 	}
 }
+func (w *World) GetChunkNeighbors(entity *Entity, level int) {
+	lenChunks := len(w.Chunks)
+	f := 1 + ((level - 1) * 2)
+	startX := entity.ChunkX - (level - 1)
+	startY := entity.ChunkY - (level - 1)
+	for x := 0; x < f; x++ {
+		for y := 0; y < f; y++ {
+			k := startX + x
+			l := startY + y
+			if k < 0 || k >= lenChunks || l < 0 || l >= lenChunks {
+				continue
+			}
+			chunk := w.Chunks[k][l]
+			for _, neighbor := range chunk.Entities {
+				if neighbor != entity.Id {
+					entity.Neighbors = append(entity.Neighbors, neighbor)
+				}
+			}
+		}
+	}
+}
+
 func (w *World) GetJSON() string {
 	w.EntityCount = len(w.Entities)
 	b, e := json.Marshal(w)

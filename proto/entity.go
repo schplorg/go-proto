@@ -39,10 +39,5 @@ func (entity *Entity) Update(world *World) {
 	m = Mul(m, 0.01)
 	entity.Move(m, world)
 	entity.Neighbors = entity.Neighbors[:0]
-	chunk := world.Chunks[entity.ChunkX][entity.ChunkY]
-	for _, neighbor := range chunk.Entities {
-		if neighbor != entity.Id {
-			entity.Neighbors = append(entity.Neighbors, neighbor)
-		}
-	}
+	world.GetChunkNeighbors(entity, 2)
 }
