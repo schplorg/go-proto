@@ -7,7 +7,7 @@ import (
 
 func Start() {
 	fmt.Println("creating world")
-	w := CreateWorld(10, 100)
+	w := CreateWorld(10)
 	StartServer(w)
 	ticker := time.NewTicker(50 * time.Millisecond)
 	go UpdateProto(ticker, w)
