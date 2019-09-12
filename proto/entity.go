@@ -36,6 +36,9 @@ func (world *World) CreateEntity(t int, pos Vec3, rot Vec3) {
 	entity.ChunkY = int(entity.Pos.Y)
 	world.Additions = append(world.Additions, &entity)
 }
+func (world *World) RemoveEntity(entity *Entity) {
+	world.Removals = append(world.Removals, entity.Id)
+}
 
 func (entity *Entity) Move(dir Vec3, world *World) {
 	d := Norm(dir)
