@@ -16,8 +16,8 @@ func Start() {
 }
 
 func UpdateProto(ticker *time.Ticker, world *World) {
-	for t := range ticker.C {
-		fmt.Println("Tick at", t)
+	for range ticker.C {
+		//fmt.Println("Tick at", t)
 		world.Update()
 	}
 }

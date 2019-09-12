@@ -22,7 +22,7 @@ func CreateWorld(size int) *World {
 		GetTime(),
 		0,
 		size, 0,
-		make(map[int]*Entity),
+		make(map[int]*Entity, 10000),
 		make([]int, 0),
 		make([]*Entity, 0),
 		chunks,
@@ -55,8 +55,10 @@ func (w *World) Update() {
 	w.Time = t
 	w.ClearChunks()
 	// Update Additions
-	for _, e := range w.Additions {
-		w.Entities[e.Id] = e
+	if w.EntityCount < 50000 {
+		for _, e := range w.Additions {
+			w.Entities[e.Id] = e
+		}
 	}
 	w.Additions = w.Additions[:0]
 	// Update Removals

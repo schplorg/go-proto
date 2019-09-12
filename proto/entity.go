@@ -11,15 +11,15 @@ type Entity struct {
 	Type      int
 	ChunkX    int
 	ChunkY    int
-	Health    int
-	Energy    int
+	Health    float64
+	Energy    float64
 	Neighbors []int
 }
 
 func (world *World) CreateEntity(t int, pos Vec3, rot Vec3) {
 	id := world.EntityCount
 	world.EntityCount++
-	ent := Entity{
+	entity := Entity{
 		Pos:       pos,
 		Rot:       rot,
 		Id:        id,
@@ -30,9 +30,11 @@ func (world *World) CreateEntity(t int, pos Vec3, rot Vec3) {
 		Energy:    50,
 		Neighbors: make([]int, 0),
 	}
-	ent.ChunkX = int(ent.Pos.X)
-	ent.ChunkY = int(ent.Pos.Y)
-	world.Additions = append(world.Additions, &ent)
+	entity.Pos.X = math.Max(0, math.Min(entity.Pos.X, float64(world.Size)-0.01))
+	entity.Pos.Y = math.Max(0, math.Min(entity.Pos.Y, float64(world.Size)-0.01))
+	entity.ChunkX = int(entity.Pos.X)
+	entity.ChunkY = int(entity.Pos.Y)
+	world.Additions = append(world.Additions, &entity)
 }
 
 func (entity *Entity) Move(dir Vec3, world *World) {
