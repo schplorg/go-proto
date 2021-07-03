@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"./proto"
+	"schplorg.de/proto"
 )
 
 func main() {
