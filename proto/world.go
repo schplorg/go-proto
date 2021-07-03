@@ -3,9 +3,11 @@ package proto
 import (
 	"encoding/json"
 	"fmt"
+	"sync"
 )
 
 type World struct {
+	mu          sync.Mutex
 	Time        float64
 	Delta       float64
 	Size        int
@@ -18,7 +20,8 @@ type World struct {
 
 func CreateWorld(size int) *World {
 	chunks := CreateChunks(size)
-	var world = World{
+	world := World{
+		sync.Mutex{},
 		GetTime(),
 		0,
 		size, 0,
@@ -50,6 +53,8 @@ func CreateWorld(size int) *World {
 }
 
 func (w *World) Update() {
+	w.mu.Lock()
+	defer w.mu.Unlock()
 	t := GetTime()
 	w.Delta = t - w.Time
 	w.Time = t
@@ -77,6 +82,8 @@ func (w *World) Update() {
 	}
 }
 func (w *World) GetJSON() string {
+	w.mu.Lock()
+	defer w.mu.Unlock()
 	w.EntityCount = len(w.Entities)
 	b, e := json.Marshal(w)
 	if e == nil {
